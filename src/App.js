@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   const [loggedIn, setIsLoggedIn] = useState(false);
@@ -18,7 +18,9 @@ function App() {
   
 
   const handleSubmit=(event)=>{
-    event.preventDefault()
+
+    if(loginDetails.userName && loginDetails.password){
+      event.preventDefault()
     if(loginDetails.userName === userData.userName && loginDetails.password === userData.password){
       setIsLoggedIn(true)
       setIncorrectDetails(false)
@@ -26,8 +28,11 @@ function App() {
       setIsLoggedIn(false);
       setIncorrectDetails(true)
     }
+  }
 
   }
+
+  console.log(loginDetails)
 
 
   return (
