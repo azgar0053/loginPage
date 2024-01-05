@@ -1,23 +1,51 @@
-import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
 function App() {
+  const [loggedIn, setIsLoggedIn] = useState(false);
+  const [loginDetails, setLoginDetails] = useState({userName:'',password:''});
+  const [incorrectDetails, setIncorrectDetails]= useState(false)
+  const userData = { userName: 'user', password: 'password'}
+
+  const handleChange=(event)=>{
+    const {name, value} = event.target;
+
+    setLoginDetails((prev)=>
+    ({...prev, [name]:value})
+    )
+
+  }
+  
+
+  const handleSubmit=(event)=>{
+    event.preventDefault()
+    if(loginDetails.userName === userData.userName && loginDetails.password === userData.password){
+      setIsLoggedIn(true)
+      setIncorrectDetails(false)
+    }else{
+      setIsLoggedIn(false);
+      setIncorrectDetails(true)
+    }
+
+  }
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Login Page</h1>
+      {loggedIn?<p>Welcome, user!</p>:''}
+      {incorrectDetails?<p style={{color:'red'}}>Invalid username or password</p>:''}
+      {loggedIn?'':
+      <form>
+      <label htmlFor='userName'>Username:</label>
+      <input type='text' id='userName' required value={loginDetails.userName} onChange={handleChange} name='userName'/><br/>
+      <label htmlFor='password'>Password:</label>
+      <input type='password' id='password' required value={loginDetails.password} onChange={handleChange} name='password'/><br/>
+      <button type='submit' onClick={handleSubmit}>Submit</button>
+    </form>
+    }
+      
+
     </div>
   );
 }
